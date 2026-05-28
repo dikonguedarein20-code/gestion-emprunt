@@ -226,7 +226,7 @@ export default function MakeRequestPage() {
                   )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="flex items-center gap-2 text-white/80 text-sm font-medium mb-2">
                       <Calendar className="w-4 h-4" />

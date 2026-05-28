@@ -71,8 +71,8 @@ export default function LandingPage() {
       </div>
 
       {/* Navbar */}
-      <nav className="relative z-20 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <nav className="relative z-20 px-4 sm:px-6 py-4">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
               <HardDrive className="w-6 h-6 text-white" />
@@ -122,7 +122,7 @@ export default function LandingPage() {
           </div>
 
           {/* Equipment Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-16 animate-fade-in-up delay-200">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mt-16 animate-fade-in-up delay-200">
             {equipmentInfo.map((item, index) => (
               <div
                 key={index}

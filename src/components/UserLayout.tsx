@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useUi } from '../contexts/UiContext';
@@ -10,6 +10,8 @@ import {
   LogOut,
   HardDrive,
   ChevronRight,
+  Menu,
+  X,
 } from 'lucide-react';
 
 const menuItems: Array<{ path: string; icon: React.ComponentType<React.SVGProps<SVGSVGElement>>; labelKey: TranslationKey }> = [
@@ -21,6 +23,7 @@ const menuItems: Array<{ path: string; icon: React.ComponentType<React.SVGProps<
 export default function UserLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { signOut, user } = useAuth();
   const { language, setLanguage, theme, toggleTheme, t } = useUi();
 
@@ -32,8 +35,31 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Sidebar */}
-      <aside className="fixed left-0 top-0 h-full w-64 bg-slate-900/50 backdrop-blur-xl border-r border-white/10 z-30">
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-20 bg-black/40 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+      <aside className={`fixed inset-y-0 left-0 z-30 w-64 transform bg-slate-900/50 backdrop-blur-xl border-r border-white/10 transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:block`}>
         <div className="p-6">
+          <div className="flex items-center justify-between md:hidden mb-4">
+            <Link to="/user" className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-400 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <HardDrive className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                GESTMAT
+              </span>
+            </Link>
+            <button
+              type="button"
+              onClick={() => setIsSidebarOpen(false)}
+              className="p-2 rounded-xl bg-white/10 text-white hover:bg-white/20"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
           <Link to="/user" className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-400 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
               <HardDrive className="w-6 h-6 text-white" />
@@ -112,7 +138,23 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
       </aside>
 
       {/* Main Content */}
-      <main className="ml-64 min-h-screen">
+      <main className="min-h-screen md:ml-64 px-4 md:px-8">
+        <div className="md:hidden sticky top-0 z-10 flex items-center justify-between gap-4 bg-slate-900/90 border-b border-white/10 px-4 py-3">
+          <button
+            type="button"
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 rounded-xl bg-slate-800/80 text-white hover:bg-slate-800"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-400 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+              <HardDrive className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-base font-bold text-white">GESTMAT</span>
+          </div>
+          <div className="w-10 h-10" />
+        </div>
         {children}
       </main>
     </div>
